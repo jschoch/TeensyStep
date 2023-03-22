@@ -85,7 +85,7 @@ int32_t LinStepAccelerator::updateSpeed(int32_t curPos)
     {
         // digitalWriteFast(3, HIGH);
         // digitalWriteFast(5, HIGH);
-        return sqrtf((float)two_a * s + vs_sqr);
+        return sqrt((double)two_a * s + vs_sqr);
     }
 
     // constant speed phase ------------------------------------
@@ -99,7 +99,7 @@ int32_t LinStepAccelerator::updateSpeed(int32_t curPos)
     if (s < ds)
     {
         // digitalWriteFast(5, LOW);
-        return sqrtf((float)two_a * (ds - s - 1) + ve_sqr);
+        return sqrt((double)two_a * (ds - s - 1) + ve_sqr);
     }
 
     //we are done, make sure to return 0 to stop the step timer

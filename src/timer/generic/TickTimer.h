@@ -4,6 +4,10 @@
 #include <functional>
 #include <limits>
 
+#if defined(ESP32)
+#include "patch.h"
+#endif
+
 class TimerControl;
 
 //using callback_t = void (*)();
@@ -61,7 +65,8 @@ class PeriodicTimer : public TimerBase
 
     inline void setPeriod(uint32_t microSeconds)
     {
-        deltaCnt = F_CPU / 1'000'000 * microSeconds;
+        //deltaCnt = F_CPU / 1'000'000 * microSeconds;
+        deltaCnt = F_CPU / 1000000 * microSeconds;
     }
 
     static float minFrequency;
@@ -77,7 +82,8 @@ class OneShotTimer : public TimerBase
 
     void setDelay(unsigned microSeconds)
     {
-        deltaCnt = F_CPU / 1'000'000 * microSeconds;
+        //deltaCnt = F_CPU / 1'000'000 * microSeconds;
+        deltaCnt = F_CPU / 1000000 * microSeconds;
     }
 };
 

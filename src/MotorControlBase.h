@@ -33,6 +33,10 @@ namespace TeensyStep{
         virtual ~MotorControlBase();
 
         void attachErrorFunction(ErrFunc ef) { errFunc = ef; }
+#ifdef ESP32
+        void stepTimerISR();
+        void pulseTimerISR();
+#endif
 
      protected:
         TimerField timerField;
@@ -44,8 +48,11 @@ namespace TeensyStep{
         void attachStepper(Stepper& stepper, Steppers&... steppers);
         void attachStepper(Stepper& stepper);
 
+
+#ifndef ESP32
         void stepTimerISR();
         void pulseTimerISR();
+#endif
 
         Stepper* motorList[MaxMotors + 1];
         Stepper* leadMotor;
@@ -131,8 +138,11 @@ namespace TeensyStep{
 
         if (mode == Mode::target && (leadMotor->current == leadMotor->target)) // stop timer and call callback if we reached target
         {
-            //timerField.stepTimerStop();
+            #ifdef ESP32
+            timerField.stepTimerStop();
+            #else
             timerField.endAfterPulse();
+            #endif
             if (callback != nullptr)
                 callback();
         }

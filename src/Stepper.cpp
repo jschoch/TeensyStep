@@ -1,6 +1,7 @@
 #include <Arduino.h>
 #include "Stepper.h"
 
+
 namespace TeensyStep
 {
     constexpr int32_t Stepper::vMaxMax;
@@ -9,17 +10,20 @@ namespace TeensyStep
     constexpr uint32_t Stepper::vPullInOutDefault;
     constexpr uint32_t Stepper::aDefault;
 
+    
     Stepper::Stepper(const int _stepPin, const int _dirPin)
         : current(0), stepPin(_stepPin), dirPin(_dirPin)
     {
+        pinMode(stepPin, OUTPUT);
+        pinMode(dirPin, OUTPUT);
+
         setStepPinPolarity(HIGH);
         setInverseRotation(false);
         setAcceleration(aDefault);
         setMaxSpeed(vMaxDefault);
         setPullInSpeed(vPullInOutDefault);
 
-        pinMode(stepPin, OUTPUT);
-        pinMode(dirPin, OUTPUT);
+       
     }
 
     Stepper& Stepper::setStepPinPolarity(int polarity)

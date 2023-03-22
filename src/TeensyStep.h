@@ -1,5 +1,6 @@
 #pragma once
 
+#include "patch.h"
 #include "RotateControlBase.h"
 #include "StepControlBase.h"
 #include "Stepper.h"
@@ -13,33 +14,43 @@
 // TEENSY 3.0 - Teensy 3.6 ==================================================================================
 
 #if defined(__MK20DX128__) || defined(__MK20DX256__) || defined(__MK64FX512__) || defined(__MK66FX1M0__)
+#pragma message "MK2 PPL!"
 #include "timer/teensy3/TimerField2.h"
+
 
 // TEENSY 4 ================================================================================================
 
 #elif defined(__IMXRT1052__)
+#pragma message "IMX PPL!"
 #include "timer/teensy4/TimerField.h"
 
 //STM32 ====================================================================================================
 
 #elif defined(STM32F4xx)
+#pragma message "STM32 PPL!"
 #include "timer/stm32/TimerField.h"
 
 //Some other hardware ======================================================================================
+#elif defined(ESP32)
+#pragma message "ESP32 PPL!"
+#include "timer/esp32/TimerField.h"
 
 #elif defined(__someHardware_TBD__)
+#pragma message "?????   PPL!"
 #include "timers/someHardware/TimerField2.h"
+using StepControlTick = TeensyStep::StepControlBase<LinStepAccelerator, TickTimerField>;
+
+using RotateControlTick = TeensyStep::RotateControlBase<LinStepAccelerator, TickTimerField>;
 #endif
 
 // Linear acceleration -----------------------------------------------------------------------------------------
 
-//using MotorControl = TeensyStep::MotorControlBase<TimerField>;
+using MotorControl = TeensyStep::MotorControlBase<TimerField>;
 
 using RotateControl = TeensyStep::RotateControlBase<LinRotAccelerator, TimerField>;
 using StepControl = TeensyStep::StepControlBase<LinStepAccelerator, TimerField>;
 
-using StepControlTick = TeensyStep::StepControlBase<LinStepAccelerator, TickTimerField>;
-using RotateControlTick = TeensyStep::RotateControlBase<LinStepAccelerator, TickTimerField>;
+
 
 // Sine acceleration -------------------------------------------------------------------------------------------
 

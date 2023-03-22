@@ -1,6 +1,10 @@
 #include <Arduino.h>
 #include "ErrorHandler.h"
 
+#if defined(ESP32)
+#include "patch.h"
+#endif
+
 namespace TeensyStep
 {
     static Stream* stream;

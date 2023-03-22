@@ -1,6 +1,8 @@
 #pragma once
 
+#ifndef ESP32
 #include "wiring.h"
+#endif
 
 #include <cmath>
 #include <cstdint>
@@ -41,7 +43,7 @@ int32_t SinRotAccelerator::prepareRotation(int32_t currentPosition, int32_t targ
     a = acceleration;
     two_a = 2 * a;
     v_min_sqr = a;
-    v_min = sqrtf(v_min_sqr);
+    v_min = sqrt(v_min_sqr);
     vstp = 0;
     overrideSpeed(speedFactor, currentPosition);
 

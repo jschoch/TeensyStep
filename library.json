@@ -5,7 +5,7 @@
   "repository":
   {
     "type": "git",
-    "url": "https://github.com/luni64/TeensyStep"
+    "url": "https://github.com/jschoch/TeensyStep.git"
   },
   "authors":
   {
@@ -16,5 +16,5 @@
   "homepage": "https://luni64.github.io/TeensyStep",
   "version": "2.3.2",
   "frameworks": "arduino",
-  "platforms": ["Teensy", "stm32"]
+  "platforms": ["Teensy", "stm32","esp32"]
 }

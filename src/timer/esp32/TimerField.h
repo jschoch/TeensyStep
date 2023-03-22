@@ -23,12 +23,33 @@ public:
   inline unsigned getStepFrequency() { return timerAlarmRead(stepTimer); }
   inline bool stepTimerIsRunning() const { return stepTimerRunning; }
 
-  inline void accTimerStart() { timerAlarmEnable(accTimer); }
-  inline void accTimerStop() { timerAlarmDisable(accTimer); }
-  inline void setAccUpdatePeriod(unsigned period) { timerAlarmWrite(accTimer, period, true); }
+  inline void accTimerStart() { 
+    Serial.println("acc timer start called\n");
+    if(accTimer){
+      timerAlarmEnable(accTimer);
+    }else{
+      Serial.println("no fimer!!!\n");
+    }
+    }
+  inline void accTimerStop() { 
+    if(accTimer){
+      timerAlarmDisable(accTimer); 
+    }
+    
+    }
+  inline void setAccUpdatePeriod(unsigned period) { 
+    //timerAlarmWrite(accTimer, period, true); 
+    if(accTimer){
+      timerAlarmWrite(accTimer, period, true);
+    }
+  }
 
-  inline void triggerDelay() { timerAlarmEnable(pulseTimer); }
-  inline void setPulseWidth(unsigned pulseWidth) { timerAlarmWrite(pulseTimer, pulseWidth, false); }
+  inline void triggerDelay() { 
+      timerAlarmEnable(pulseTimer); 
+      }
+  inline void setPulseWidth(unsigned pulseWidth) { 
+    timerAlarmWrite(pulseTimer, pulseWidth, false); 
+    }
 
   static portMUX_TYPE timerMux;
 
@@ -51,11 +72,11 @@ TimerField::TimerField(TF_Handler *_handler)
       lastF(0)
 {
   handler = _handler;
-  timerAttachInterrupt(stepTimer, [] { handler->stepTimerISR(); }, true);
+  timerAttachInterrupt(stepTimer, [] { handler->stepTimerISR(); }, false);
   timerAlarmWrite(stepTimer, 1, true);
-  timerAttachInterrupt(accTimer, [] { handler->accTimerISR(); }, true);
+  timerAttachInterrupt(accTimer, [] { handler->accTimerISR(); }, false);
   timerAlarmWrite(accTimer, 1, true);
-  timerAttachInterrupt(pulseTimer, [] { handler->pulseTimerISR(); }, true);
+  timerAttachInterrupt(pulseTimer, [] { handler->pulseTimerISR(); }, false);
   timerAlarmWrite(pulseTimer, 1, false);
 }
 
